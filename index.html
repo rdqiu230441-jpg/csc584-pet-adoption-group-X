@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Adoption & Rescue Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        header h1 {
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .breadcrumb {
+            padding: 15px 30px;
+            background: #f1f3f5;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        main {
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .page-header h2 {
+            color: #2d3748;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .page-description {
+            color: #718096;
+            font-size: 16px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .kpi-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .kpi-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .kpi-card .value {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .chart-placeholder {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 60px;
+            text-align: center;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+        
+        .form-placeholder {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 40px;
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .table-placeholder {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-content h3 {
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .card-content p {
+            color: #718096;
+            margin-bottom: 15px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .detail-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .detail-section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .info-item strong {
+            display: block;
+            color: #4a5568;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .info-item span {
+            color: #2d3748;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐾 Pet Adoption & Rescue Portal</h1>
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn btn-outline" onclick="showPage('login')">Login</button>
+                <button class="btn btn-primary" onclick="showPage('register')">Register</button>
+            </div>
+            <div class="auth-buttons hidden" id="loggedInButtons">
+                <span style="margin-right: 15px;">Welcome, User!</span>
+                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            </div>
+        </header>
+        
+        <nav id="mainNav" class="hidden">
+            <ul>
+                <li><a href="#" onclick="showPage('dashboard')" class="active">Dashboard</a></li>
+                <li><a href="#" onclick="showPage('pets-list')">Browse Pets</a></li>
+                <li><a href="#" onclick="showPage('shelters-list')">Shelters</a></li>
+                <li><a href="#" onclick="showPage('adoptions-list')">Adoptions</a></li>
+                <li><a href="#" onclick="showPage('events-list')">Events</a></li>
+            </ul>
+        </nav>
+        
+        <div class="breadcrumb" id="breadcrumb">
+            <a href="#" onclick="showPage('home')">Home</a>
+        </div>
+        
+        <main id="mainContent">
+            <!-- HOME PAGE -->
+            <div id="page-home" class="page">
+                <div class="page-header">
+                    <h2>Welcome to Pet Adoption & Rescue Portal</h2>
+                    <p class="page-description">Connect loving homes with pets in need. Save a life, adopt today!</p>
+                </div>
+                
+                <div style="text-align: center; margin: 50px 0;">
+                    <h3 style="color: #2d3748; margin-bottom: 30px;">Find Your Perfect Companion</h3>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="showPage('register')">Get Started - Register</button>
+                        <button class="btn btn-secondary" onclick="showPage('pets-list')">Browse Available Pets</button>
+                        <button class="btn btn-outline" onclick="showPage('login')">Login</button>
+                    </div>
+                </div>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <h3>Pets Available</h3>
+                        <div class="value">245</div>
+                    </div>
+                    <div class="kpi-card" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">
+                        <h3>Successful Adoptions</h3>
+                        <div class="value">1,823</div>
+                    </div>
+                    <div class="kpi-card" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);">
+                        <h3>Active Shelters</h3>
+                        <div class="value">42</div>
+                    </div>
+                    <div class="kpi-card" style="background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);">
+                        <h3>Upcoming Events</h3>
+                        <div class="value">8</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- LOGIN PAGE -->
+            <div id="page-login" class="page hidden">
+                <div class="page-header">
+                    <h2>Login</h2>
+                    <p class="page-description">Sign in to your account to manage adoptions and connect with shelters</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Enter your password">
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="login()">Login</button>
+                        <button class="btn btn-outline" onclick="showPage('register')">Create Account</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- REGISTER PAGE -->
+            <div id="page-register" class="page hidden">
+                <div class="page-header">
+                    <h2>Register New Account</h2>
+                    <p class="page-description">Create an account to start your pet adoption journey</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="Enter your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label>User Type</label>
+                        <select>
+                            <option>Adopter</option>
+                            <option>Shelter Manager</option>
+                            <option>Volunteer</option>
+                        </select>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="login()">Register</button>
+                        <button class="btn btn-outline" onclick="showPage('login')">Already have an account?</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DASHBOARD PAGE -->
+            <div id="page-dashboard" class="page hidden">
+                <div class="page-header">
+                    <h2>Dashboard</h2>
+                    <p class="page-description">Overview of pet adoption activities and quick access to key features</p>
+                </div>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <h3>Total Pets Available</h3>
+                        <div class="value">245</div>
+                    </div>
+                    <div class="kpi-card" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">
+                        <h3>Pending Adoptions</h3>
+                        <div class="value">18</div>
+                    </div>
+                    <div class="kpi-card" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);">
+                        <h3>Active Shelters</h3>
+                        <div class="value">42</div>
+                    </div>
+                    <div class="kpi-card" style="background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);">
+                        <h3>This Month Adoptions</h3>
+                        <div class="value">67</div>
+                    </div>
+                </div>
+                
+                <div class="chart-placeholder">
+                    <h3>📊 Monthly Adoptions Trend (Line Chart)</h3>
+                    <p>Chart showing adoption statistics over the past 12 months</p>
+                </div>
+                
+                <div class="chart-placeholder">
+                    <h3>🥧 Pets by Species (Pie Chart)</h3>
+                    <p>Distribution of available pets: Dogs, Cats, Birds, Rabbits, Others</p>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 20px;">Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('pets-create')">Add New Pet</button>
+                        <button class="btn btn-secondary" onclick="showPage('pets-list')">Browse Pets</button>
+                        <button class="btn btn-outline" onclick="showPage('adoptions-list')">View Adoptions</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PETS LIST PAGE -->
+            <div id="page-pets-list" class="page hidden">
+                <div class="page-header">
+                    <h2>Available Pets for Adoption</h2>
+                    <p class="page-description">Browse all pets looking for their forever homes</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showPage('pets-create')">+ Add New Pet</button>
+                    <button class="btn btn-outline" onclick="showPage('dashboard')">Back to Dashboard</button>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-image">🐕</div>
+                        <div class="card-content">
+                            <h3>Max</h3>
+                            <p><strong>Species:</strong> Dog<br>
+                            <strong>Breed:</strong> Golden Retriever<br>
+                            <strong>Age:</strong> 2 years<br>
+                            <strong>Status:</strong> Available</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="showPage('pets-details')">View Details</button>
+                                <button class="btn btn-secondary" onclick="showPage('pets-edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-image">🐈</div>
+                        <div class="card-content">
+                            <h3>Luna</h3>
+                            <p><strong>Species:</strong> Cat<br>
+                            <strong>Breed:</strong> Persian<br>
+                            <strong>Age:</strong> 1 year<br>
+                            <strong>Status:</strong> Available</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="showPage('pets-details')">View Details</button>
+                                <button class="btn btn-secondary" onclick="showPage('pets-edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-image">🐕</div>
+                        <div class="card-content">
+                            <h3>Buddy</h3>
+                            <p><strong>Species:</strong> Dog<br>
+                            <strong>Breed:</strong> Labrador<br>
+                            <strong>Age:</strong> 3 years<br>
+                            <strong>Status:</strong> Available</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="showPage('pets-details')">View Details</button>
+                                <button class="btn btn-secondary" onclick="showPage('pets-edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-image">🐦</div>
+                        <div class="card-content">
+                            <h3>Tweety</h3>
+                            <p><strong>Species:</strong> Bird<br>
+                            <strong>Breed:</strong> Parakeet<br>
+                            <strong>Age:</strong> 6 months<br>
+                            <strong>Status:</strong> Available</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="showPage('pets-details')">View Details</button>
+                                <button class="btn btn-secondary" onclick="showPage('pets-edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PETS CREATE PAGE -->
+            <div id="page-pets-create" class="page hidden">
+                <div class="page-header">
+                    <h2>Add New Pet</h2>
+                    <p class="page-description">Register a new pet for adoption</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Pet Name</label>
+                        <input type="text" placeholder="Enter pet name">
+                    </div>
+                    <div class="form-group">
+                        <label>Species</label>
+                        <select>
+                            <option>Dog</option>
+                            <option>Cat</option>
+                            <option>Bird</option>
+                            <option>Rabbit</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Breed</label>
+                        <input type="text" placeholder="Enter breed">
+                    </div>
+                    <div class="form-group">
+                        <label>Age (years)</label>
+                        <input type="number" placeholder="Enter age">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <input type="text" placeholder="Enter color">
+                    </div>
+                    <div class="form-group">
+                        <label>Size</label>
+                        <select>
+                            <option>Small</option>
+                            <option>Medium</option>
+                            <option>Large</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Shelter</label>
+                        <select>
+                            <option>Happy Paws Shelter</option>
+                            <option>City Animal Rescue</option>
+                            <option>Second Chance Shelter</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="4" placeholder="Enter pet description and personality"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Medical History</label>
+                        <textarea rows="3" placeholder="Enter medical history"></textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('pets-list')">Save Pet</button>
+                        <button class="btn btn-outline" onclick="showPage('pets-list')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PETS DETAILS PAGE -->
+            <div id="page-pets-details" class="page hidden">
+                <div class="page-header">
+                    <h2>Pet Details - Max</h2>
+                    <p class="page-description">Detailed information about this pet</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Basic Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Pet Name</strong>
+                            <span>Max</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Species</strong>
+                            <span>Dog</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Breed</strong>
+                            <span>Golden Retriever</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Age</strong>
+                            <span>2 years</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Gender</strong>
+                            <span>Male</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Color</strong>
+                            <span>Golden</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Size</strong>
+                            <span>Large</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Status</strong>
+                            <span>Available</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Shelter Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Shelter Name</strong>
+                            <span>Happy Paws Shelter</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Location</strong>
+                            <span>123 Main St, City</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Contact</strong>
+                            <span>(555) 123-4567</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Description</h3>
+                    <p>Max is a friendly and energetic Golden Retriever who loves to play fetch and go on long walks. He's great with children and other pets. Max is fully vaccinated and house-trained.</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Medical History</h3>
+                    <p>All vaccinations up to date. Neutered. No known health issues.</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showPage('adoptions-create')">Apply for Adoption</button>
+                    <button class="btn btn-secondary" onclick="showPage('pets-edit')">Edit Pet</button>
+                    <button class="btn btn-danger">Delete Pet</button>
+                    <button class="btn btn-outline" onclick="showPage('pets-list')">Back to List</button>
+                </div>
+            </div>
+            
+            <!-- PETS EDIT PAGE -->
+            <div id="page-pets-edit" class="page hidden">
+                <div class="page-header">
+                    <h2>Edit Pet - Max</h2>
+                    <p class="page-description">Update pet information</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Pet Name</label>
+                        <input type="text" value="Max">
+                    </div>
+                    <div class="form-group">
+                        <label>Species</label>
+                        <select>
+                            <option selected>Dog</option>
+                            <option>Cat</option>
+                            <option>Bird</option>
+                            <option>Rabbit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Breed</label>
+                        <input type="text" value="Golden Retriever">
+                    </div>
+                    <div class="form-group">
+                        <label>Age (years)</label>
+                        <input type="number" value="2">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select>
+                            <option selected>Available</option>
+                            <option>Pending Adoption</option>
+                            <option>Adopted</option>
+                            <option>Not Available</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="4">Max is a friendly and energetic Golden Retriever...</textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('pets-details')">Update Pet</button>
+                        <button class="btn btn-outline" onclick="showPage('pets-details')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SHELTERS LIST PAGE -->
+            <div id="page-shelters-list" class="page hidden">
+                <div class="page-header">
+                    <h2>Animal Shelters</h2>
+                    <p class="page-description">Browse all registered animal shelters and rescue organizations</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showPage('shelters-create')">+ Add New Shelter</button>
+                    <button class="btn btn-outline" onclick="showPage('dashboard')">Back to Dashboard</button>
+                </div>
+                
+                <div class="table-placeholder">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Shelter Name</th>
+                                <th>Location</th>
+                                <th>Phone</th>
+                                <th>Capacity</th>
+                                <th>Current Pets</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Happy Paws Shelter</td>
+                                <td>123 Main St, City</td>
+                                <td>(555) 123-4567</td>
+                                <td>50</td>
+                                <td>38</td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('shelters-details')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('shelters-edit')">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>City Animal Rescue</td>
+                                <td>456 Oak Ave, Downtown</td>
+                                <td>(555) 234-5678</td>
+                                <td>75</td>
+                                <td>62</td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('shelters-details')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('shelters-edit')">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Second Chance Shelter</td>
+                                <td>789 Pine Rd, Suburbs</td>
+                                <td>(555) 345-6789</td>
+                                <td>40</td>
+                                <td>35</td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('shelters-details')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('shelters-edit')">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- SHELTERS CREATE PAGE -->
+            <div id="page-shelters-create" class="page hidden">
+                <div class="page-header">
+                    <h2>Register New Shelter</h2>
+                    <p class="page-description">Add a new animal shelter to the system</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Shelter Name</label>
+                        <input type="text" placeholder="Enter shelter name">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" placeholder="Enter street address">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" placeholder="Enter city">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Enter email address">
+                    </div>
+                    <div class="form-group">
+                        <label>Capacity</label>
+                        <input type="number" placeholder="Maximum number of pets">
+                    </div>
+                    <div class="form-group">
+                        <label>Operating Hours</label>
+                        <input type="text" placeholder="e.g., Mon-Fri 9AM-5PM">
+                    </div>
+                    <div class="form-group">
+                        <label>Website</label>
+                        <input type="url" placeholder="Enter website URL">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="4" placeholder="Enter shelter description and facilities"></textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('shelters-list')">Save Shelter</button>
+                        <button class="btn btn-outline" onclick="showPage('shelters-list')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SHELTERS DETAILS PAGE -->
+            <div id="page-shelters-details" class="page hidden">
+                <div class="page-header">
+                    <h2>Shelter Details - Happy Paws Shelter</h2>
+                    <p class="page-description">Complete information about this shelter</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Contact Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Shelter Name</strong>
+                            <span>Happy Paws Shelter</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Address</strong>
+                            <span>123 Main St, City</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Phone</strong>
+                            <span>(555) 123-4567</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Email</strong>
+                            <span>info@happypaws.com</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Website</strong>
+                            <span>www.happypaws.com</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Operating Hours</strong>
+                            <span>Mon-Fri 9AM-5PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Capacity & Statistics</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Maximum Capacity</strong>
+                            <span>50 pets</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Current Pets</strong>
+                            <span>38 pets</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Available Space</strong>
+                            <span>12 spaces</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Total Adoptions</strong>
+                            <span>423</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Description</h3>
+                    <p>Happy Paws Shelter is a no-kill shelter dedicated to rescuing and rehoming abandoned and stray animals. We provide medical care, behavioral training, and lots of love to all our animals.</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="showPage('shelters-edit')">Edit Shelter</button>
+                    <button class="btn btn-danger">Delete Shelter</button>
+                    <button class="btn btn-outline" onclick="showPage('shelters-list')">Back to List</button>
+                </div>
+            </div>
+            
+            <!-- SHELTERS EDIT PAGE -->
+            <div id="page-shelters-edit" class="page hidden">
+                <div class="page-header">
+                    <h2>Edit Shelter - Happy Paws Shelter</h2>
+                    <p class="page-description">Update shelter information</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Shelter Name</label>
+                        <input type="text" value="Happy Paws Shelter">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" value="123 Main St">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" value="(555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Capacity</label>
+                        <input type="number" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="4">Happy Paws Shelter is a no-kill shelter...</textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('shelters-details')">Update Shelter</button>
+                        <button class="btn btn-outline" onclick="showPage('shelters-details')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ADOPTIONS LIST PAGE -->
+            <div id="page-adoptions-list" class="page hidden">
+                <div class="page-header">
+                    <h2>Adoption Applications</h2>
+                    <p class="page-description">View and manage all adoption applications</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showPage('adoptions-create')">+ New Application</button>
+                    <button class="btn btn-outline" onclick="showPage('dashboard')">Back to Dashboard</button>
+                </div>
+                
+                <div class="table-placeholder">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Application ID</th>
+                                <th>Adopter Name</th>
+                                <th>Pet Name</th>
+                                <th>Application Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ADT-001</td>
+                                <td>John Smith</td>
+                                <td>Max</td>
+                                <td>2025-11-20</td>
+                                <td><span style="background: #ffd93d; padding: 5px 10px; border-radius: 5px;">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('adoptions-details')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('adoptions-edit')">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ADT-002</td>
+                                <td>Sarah Johnson</td>
+                                <td>Luna</td>
+                                <td>2025-11-18</td>
+                                <td><span style="background: #6bcf7f; padding: 5px 10px; border-radius: 5px; color: white;">Approved</span></td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('adoptions-details')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('adoptions-edit')">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ADT-003</td>
+                                <td>Mike Davis</td>
+                                <td>Buddy</td>
+                                <td>2025-11-15</td>
+                                <td><span style="background: #48bb78; padding: 5px 10px; border-radius: 5px; color: white;">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('adoptions-details')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;" onclick="showPage('adoptions-edit')">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- ADOPTIONS CREATE PAGE -->
+            <div id="page-adoptions-create" class="page hidden">
+                <div class="page-header">
+                    <h2>New Adoption Application</h2>
+                    <p class="page-description">Submit an application to adopt a pet</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Select Pet</label>
+                        <select>
+                            <option>Max - Golden Retriever</option>
+                            <option>Luna - Persian Cat</option>
+                            <option>Buddy - Labrador</option>
+                            <option>Tweety - Parakeet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Adopter Full Name</label>
+                        <input type="text" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Enter email address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" placeholder="Enter your address">
+                    </div>
+                    <div class="form-group">
+                        <label>Housing Type</label>
+                        <select>
+                            <option>House</option>
+                            <option>Apartment</option>
+                            <option>Condo</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Do you have a yard?</label>
+                        <select>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Other Pets at Home</label>
+                        <input type="text" placeholder="List other pets if any">
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for Adoption</label>
+                        <textarea rows="4" placeholder="Why do you want to adopt this pet?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Previous Pet Experience</label>
+                        <textarea rows="3" placeholder="Describe your experience with pets"></textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('adoptions-list')">Submit Application</button>
+                        <button class="btn btn-outline" onclick="showPage('adoptions-list')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ADOPTIONS DETAILS PAGE -->
+            <div id="page-adoptions-details" class="page hidden">
+                <div class="page-header">
+                    <h2>Adoption Application Details - #ADT-001</h2>
+                    <p class="page-description">Review adoption application information</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Application Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Application ID</strong>
+                            <span>#ADT-001</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Application Date</strong>
+                            <span>November 20, 2025</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Status</strong>
+                            <span style="background: #ffd93d; padding: 5px 10px; border-radius: 5px;">Pending Review</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Pet Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Pet Name</strong>
+                            <span>Max</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Species/Breed</strong>
+                            <span>Dog - Golden Retriever</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Shelter</strong>
+                            <span>Happy Paws Shelter</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Adopter Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Full Name</strong>
+                            <span>John Smith</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Email</strong>
+                            <span>john.smith@email.com</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Phone</strong>
+                            <span>(555) 987-6543</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Address</strong>
+                            <span>789 Elm Street, City</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Housing Type</strong>
+                            <span>House</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Has Yard</strong>
+                            <span>Yes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Additional Information</h3>
+                    <p><strong>Reason for Adoption:</strong><br>
+                    Looking for a family companion. We have two children and a large backyard perfect for a dog.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Previous Pet Experience:</strong><br>
+                    Had a Golden Retriever for 10 years before he passed away last year. Familiar with training and care.</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary">Approve Application</button>
+                    <button class="btn btn-danger">Reject Application</button>
+                    <button class="btn btn-secondary" onclick="showPage('adoptions-edit')">Edit</button>
+                    <button class="btn btn-outline" onclick="showPage('adoptions-list')">Back to List</button>
+                </div>
+            </div>
+            
+            <!-- ADOPTIONS EDIT PAGE -->
+            <div id="page-adoptions-edit" class="page hidden">
+                <div class="page-header">
+                    <h2>Edit Adoption Application - #ADT-001</h2>
+                    <p class="page-description">Update adoption application details</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Application Status</label>
+                        <select>
+                            <option selected>Pending</option>
+                            <option>Under Review</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                            <option>Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Adopter Name</label>
+                        <input type="text" value="John Smith">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" value="(555) 987-6543">
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea rows="4" placeholder="Add any notes about this application"></textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('adoptions-details')">Update Application</button>
+                        <button class="btn btn-outline" onclick="showPage('adoptions-details')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- EVENTS LIST PAGE -->
+            <div id="page-events-list" class="page hidden">
+                <div class="page-header">
+                    <h2>Adoption Events & Activities</h2>
+                    <p class="page-description">Browse upcoming pet adoption events and awareness campaigns</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showPage('events-create')">+ Create New Event</button>
+                    <button class="btn btn-outline" onclick="showPage('dashboard')">Back to Dashboard</button>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">📅</div>
+                        <div class="card-content">
+                            <h3>Weekend Adoption Fair</h3>
+                            <p><strong>Date:</strong> Nov 30, 2025<br>
+                            <strong>Time:</strong> 10:00 AM - 4:00 PM<br>
+                            <strong>Location:</strong> City Park<br>
+                            <strong>Shelter:</strong> Happy Paws</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="showPage('events-details')">View Details</button>
+                                <button class="btn btn-secondary" onclick="showPage('events-edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);">🎉</div>
+                        <div class="card-content">
+                            <h3>Pet Vaccination Drive</h3>
+                            <p><strong>Date:</strong> Dec 5, 2025<br>
+                            <strong>Time:</strong> 9:00 AM - 3:00 PM<br>
+                            <strong>Location:</strong> Community Center<br>
+                            <strong>Shelter:</strong> City Rescue</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="showPage('events-details')">View Details</button>
+                                <button class="btn btn-secondary" onclick="showPage('events-edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-image" style="background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);">🐕</div>
+                        <div class="card-content">
+                            <h3>Dog Training Workshop</h3>
+                            <p><strong>Date:</strong> Dec 12, 2025<br>
+                            <strong>Time:</strong> 2:00 PM - 5:00 PM<br>
+                            <strong>Location:</strong> Happy Paws Shelter<br>
+                            <strong>Shelter:</strong> Happy Paws</p>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="showPage('events-details')">View Details</button>
+                                <button class="btn btn-secondary" onclick="showPage('events-edit')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- EVENTS CREATE PAGE -->
+            <div id="page-events-create" class="page hidden">
+                <div class="page-header">
+                    <h2>Create New Event</h2>
+                    <p class="page-description">Organize a new adoption event or activity</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Event Title</label>
+                        <input type="text" placeholder="Enter event title">
+                    </div>
+                    <div class="form-group">
+                        <label>Event Type</label>
+                        <select>
+                            <option>Adoption Fair</option>
+                            <option>Vaccination Drive</option>
+                            <option>Training Workshop</option>
+                            <option>Fundraiser</option>
+                            <option>Awareness Campaign</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Organizing Shelter</label>
+                        <select>
+                            <option>Happy Paws Shelter</option>
+                            <option>City Animal Rescue</option>
+                            <option>Second Chance Shelter</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Event Date</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Start Time</label>
+                        <input type="time">
+                    </div>
+                    <div class="form-group">
+                        <label>End Time</label>
+                        <input type="time">
+                    </div>
+                    <div class="form-group">
+                        <label>Location/Venue</label>
+                        <input type="text" placeholder="Enter event location">
+                    </div>
+                    <div class="form-group">
+                        <label>Maximum Participants</label>
+                        <input type="number" placeholder="Enter max participants (optional)">
+                    </div>
+                    <div class="form-group">
+                        <label>Event Description</label>
+                        <textarea rows="4" placeholder="Describe the event details and activities"></textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('events-list')">Create Event</button>
+                        <button class="btn btn-outline" onclick="showPage('events-list')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- EVENTS DETAILS PAGE -->
+            <div id="page-events-details" class="page hidden">
+                <div class="page-header">
+                    <h2>Event Details - Weekend Adoption Fair</h2>
+                    <p class="page-description">Complete information about this event</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Event Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Event Title</strong>
+                            <span>Weekend Adoption Fair</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Event Type</strong>
+                            <span>Adoption Fair</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Date</strong>
+                            <span>November 30, 2025</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Time</strong>
+                            <span>10:00 AM - 4:00 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Location</strong>
+                            <span>City Park, Main Pavilion</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Organizing Shelter</strong>
+                            <span>Happy Paws Shelter</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Max Participants</strong>
+                            <span>200</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Registered</strong>
+                            <span>145</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Event Description</h3>
+                    <p>Join us for our biggest adoption event of the year! Meet dozens of adorable pets looking for their forever homes. Activities include pet meet-and-greets, adoption consultations, pet care workshops, and fun activities for the whole family. Refreshments will be provided.</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>Participating Pets</h3>
+                    <p>Approximately 35 dogs, 20 cats, and 10 small animals will be available for adoption.</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary">Register for Event</button>
+                    <button class="btn btn-secondary" onclick="showPage('events-edit')">Edit Event</button>
+                    <button class="btn btn-danger">Cancel Event</button>
+                    <button class="btn btn-outline" onclick="showPage('events-list')">Back to List</button>
+                </div>
+            </div>
+            
+            <!-- EVENTS EDIT PAGE -->
+            <div id="page-events-edit" class="page hidden">
+                <div class="page-header">
+                    <h2>Edit Event - Weekend Adoption Fair</h2>
+                    <p class="page-description">Update event information</p>
+                </div>
+                
+                <div class="form-placeholder">
+                    <div class="form-group">
+                        <label>Event Title</label>
+                        <input type="text" value="Weekend Adoption Fair">
+                    </div>
+                    <div class="form-group">
+                        <label>Event Date</label>
+                        <input type="date" value="2025-11-30">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" value="City Park, Main Pavilion">
+                    </div>
+                    <div class="form-group">
+                        <label>Event Description</label>
+                        <textarea rows="4">Join us for our biggest adoption event of the year...</textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showPage('events-details')">Update Event</button>
+                        <button class="btn btn-outline" onclick="showPage('events-details')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Pet Adoption & Rescue Portal | Connecting Hearts, Saving Lives 🐾</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Page management
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            // Show selected page
+            const targetPage = document.getElementById('page-' + pageName);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+            
+            // Update breadcrumb
+            updateBreadcrumb(pageName);
+            
+            // Update navigation active state
+            updateNavigation(pageName);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function updateBreadcrumb(pageName) {
+            const breadcrumb = document.getElementById('breadcrumb');
+            const breadcrumbMap = {
+                'home': '<a href="#" onclick="showPage(\'home\')">Home</a>',
+                'login': '<a href="#" onclick="showPage(\'home\')">Home</a> > Login',
+                'register': '<a href="#" onclick="showPage(\'home\')">Home</a> > Register',
+                'dashboard': '<a href="#" onclick="showPage(\'home\')">Home</a> > <a href="#" onclick="showPage(\'dashboard\')">Dashboard</a>',
+                'pets-list': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > Pets List',
+                'pets-create': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'pets-list\')">Pets List</a> > Create Pet',
+                'pets-details': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'pets-list\')">Pets List</a> > Pet Details',
+                'pets-edit': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'pets-list\')">Pets List</a> > Edit Pet',
+                'shelters-list': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > Shelters List',
+                'shelters-create': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'shelters-list\')">Shelters List</a> > Create Shelter',
+                'shelters-details': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'shelters-list\')">Shelters List</a> > Shelter Details',
+                'shelters-edit': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'shelters-list\')">Shelters List</a> > Edit Shelter',
+                'adoptions-list': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > Adoptions List',
+                'adoptions-create': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'adoptions-list\')">Adoptions List</a> > New Application',
+                'adoptions-details': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'adoptions-list\')">Adoptions List</a> > Application Details',
+                'adoptions-edit': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'adoptions-list\')">Adoptions List</a> > Edit Application',
+                'events-list': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > Events List',
+                'events-create': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'events-list\')">Events List</a> > Create Event',
+                'events-details': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'events-list\')">Events List</a> > Event Details',
+                'events-edit': '<a href="#" onclick="showPage(\'dashboard\')">Dashboard</a> > <a href="#" onclick="showPage(\'events-list\')">Events List</a> > Edit Event'
+            };
+            
+            breadcrumb.innerHTML = breadcrumbMap[pageName] || '<a href="#" onclick="showPage(\'home\')">Home</a>';
+        }
+        
+        function updateNavigation(pageName) {
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Determine which nav item should be active
+            if (pageName.startsWith('pets-')) {
+                navLinks[1]?.classList.add('active');
+            } else if (pageName.startsWith('shelters-')) {
+                navLinks[2]?.classList.add('active');
+            } else if (pageName.startsWith('adoptions-')) {
+                navLinks[3]?.classList.add('active');
+            } else if (pageName.startsWith('events-')) {
+                navLinks[4]?.classList.add('active');
+            } else if (pageName === 'dashboard') {
+                navLinks[0]?.classList.add('active');
+            }
+        }
+        
+        function login() {
+            // Simulate login
+            document.getElementById('authButtons').classList.add('hidden');
+            document.getElementById('loggedInButtons').classList.remove('hidden');
+            document.getElementById('mainNav').classList.remove('hidden');
+            showPage('dashboard');
+        }
+        
+        function logout() {
+            // Simulate logout
+            document.getElementById('authButtons').classList.remove('hidden');
+            document.getElementById('loggedInButtons').classList.add('hidden');
+            document.getElementById('mainNav').classList.add('hidden');
+            showPage('home');
+        }
+        
+        // Initialize - show home page
+        showPage('home');
+    </script>
+</body>
+</html>

@@ -438,7 +438,7 @@
 
 **- Course: CSC584 - Web Development**
 
-**- Institution: \Qaiwani International University**
+**- Institution: \Qaiwani International University - UITM**
 
 **- Semester: \Stage 3 - Semester 1**
 

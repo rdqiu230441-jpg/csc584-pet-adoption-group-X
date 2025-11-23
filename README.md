@@ -438,9 +438,9 @@
 
 **- Course: CSC584 - Web Development**
 
-**- Institution: \[Your University]**
+**- Institution: \Qaiwani International University**
 
-**- Semester: \[Current Semester]**
+**- Semester: \Stage 3 - Semester 1**
 
 **- Due Date: Week 8**
 
